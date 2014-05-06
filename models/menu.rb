@@ -1,3 +1,6 @@
+require 'person'
+require 'group'
+
 class Menu
 
   def self.options
@@ -20,17 +23,17 @@ EOS
     return unless input
     input.chomp!
     if input == "1"
-      puts "Name of person you would like to add?"
+      Person.add_menu
     elsif input == "2"
-      puts "Name of group you would like to add?"
+      Group.add_menu
     elsif input == "3"
-      puts "Name of person you would like to edit?"
+      Person.edit_menu
     elsif input == "4"
-      puts "Name of group you would like to edit?"
+      Group.edit_menu
     elsif input == "5"
-      puts "Name of person you would like to delete?"
+      Person.delete_menu
     elsif input == "6"
-      puts "Name of group you would like to delete?"
+      Group.delete_menu
     elsif input == "7"
       puts "Name of group you would like to view?"
     elsif input == "8"
