@@ -11,7 +11,7 @@ What do you want to do?
 5. Delete person
 6. Delete group
 7. View group contacts
-8. Edit
+8. Exit
 EOS
   end
   context "the menu displays on startup" do
@@ -78,7 +78,7 @@ EOS
     end
   end
   context "if the user types in no input" do
-    let(:shell_output){i run_rm_with_input("") }
+    let(:shell_output){ run_rm_with_input("") }
     it "should print the menu again" do
       shell_output.should include_in_order(menu_text, menu_text)
     end

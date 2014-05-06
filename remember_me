@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << "lib"
+$LOAD_PATH << "models"
+
+require 'menu'
+
+Menu.selection_process
