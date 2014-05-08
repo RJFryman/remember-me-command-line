@@ -35,7 +35,7 @@ EOS
     elsif input == "6"
       Group.delete_menu
     elsif input == "7"
-      puts "Name of group you would like to view?"
+      Group.view_menu
     elsif input == "8"
       puts "Thank you"
       exit

@@ -11,6 +11,9 @@ class Database < SQLite3::Database
   end
 
   def create_tables
+     self.execute("CREATE TABLE groups (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(50))")
+     self.execute("CREATE TABLE people (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(50))")
+     self.execute("CREATE TABLE group_memberships (id INTEGER PRIMARY KEY AUTOINCREMENT, person_id INTERGER, group_id INTERGER)")
   end
 
   def execute(statement, bind_vars = [])
