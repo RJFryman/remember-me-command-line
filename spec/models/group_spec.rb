@@ -41,6 +41,16 @@ describe Group do
     end
   end
 
+  context ".delete_by_name" do
+    context "delete 1 group in database" do
+      it "should remove a group" do
+        Group.new("NSS").save
+        Group.delete_by_name("NSS")
+        Group.count.should == 0
+      end
+    end
+  end
+
   context ".find_by_name" do
     context "with no groups in the database" do
       it "should return 0" do

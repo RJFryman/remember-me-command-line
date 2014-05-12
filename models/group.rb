@@ -7,22 +7,6 @@ class Group
     @name = name
   end
 
-  def self.add_menu
-    puts "Name of group you would like to add?"
-  end
-
-  def self.edit_menu
-    puts "Name of group you would like to edit?"
-  end
-
-  def self.delete_menu
-    puts "Name of group you would like to delete?"
-  end
-
-  def self.view_menu
-    puts "Name of group you would like to view?"
-  end
-
   def self.all
     statement = "Select * from groups;"
     execute_and_instantiate(statement)
@@ -38,6 +22,11 @@ class Group
     group = Group.new(name)
     group.save
     group
+  end
+
+  def self.delete_by_name(name)
+    statement = "DELETE FROM groups where name = ?;"
+    execute_and_instantiate(statement, name)[0]
   end
 
   def self.find_by_name(name)

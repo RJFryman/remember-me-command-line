@@ -8,10 +8,10 @@ describe Person do
       end
     end
     context "with multiple people in the database" do
-      let!(:foo){ Person.create("Foo") }
-      let!(:bar){ Person.create("Bar") }
-      let!(:baz){ Person.create("Baz") }
-      let!(:grille){ Person.create("Grille") }
+      let!(:foo){ Person.create("Foo", "123-456-7890", "foo@noamil.com", "@foo") }
+      let!(:bar){ Person.create("Bar", "123-456-7890", "bar@nomail.com", "@bar") }
+      let!(:baz){ Person.create("Baz", "123-456-7890", "baz@nomail.com", "@baz") }
+      let!(:grille){ Person.create("Grille", "123-456-7890", "grille@nomail.com", "@grille") }
       it "should return all the people" do
         person_attrs = Person.all.map{ |person| [person.name, person.id] }
         person_attrs.should == [["Foo", foo.id],
@@ -30,16 +30,27 @@ describe Person do
     end
     context "with multiple people in the database" do
       before do
-        Person.new("Foo").save
-        Person.new("Bar").save
-        Person.new("Baz").save
-        Person.new("Grille").save
+        Person.new("Foo", "123-456-7890", "foo@nomail.com", "@foo").save
+        Person.new("Bar", "123-456-7890", "bar@nomail.com", "@bar").save
+        Person.new("Baz", "123-456-7890", "baz@nomail.com", "@baz").save
+        Person.new("Grille", "123-456-7890", "grille@nomail.com", "@grille").save
       end
       it "should return the correct count" do
         Person.count.should == 4
       end
     end
   end
+
+  context ".delete_by_name" do
+    context "delete 1 person in database" do
+      it "should remove person" do
+        Person.new("Foo", "123-456-7890", "foo@nomail.com", "@foo").save
+        Person.delete_by_name("Foo")
+        Person.count.should == 0
+      end
+    end
+  end
+
 
   context ".find_by_name" do
     context "with no people in the database" do
@@ -48,12 +59,12 @@ describe Person do
       end
     end
     context "with person by that name in the database" do
-      let(:foo){ Person.create("Foo") }
+      let(:foo){ Person.create("Foo","","","") }
       before do
         foo
-        Person.new("Bar").save
-        Person.new("Baz").save
-        Person.new("Grille").save
+        Person.new("Bar","","","").save
+        Person.new("Baz","","","").save
+        Person.new("Grille","","","").save
       end
       it "should return the person with that name" do
         Person.find_by_name("Foo").id.should == foo.id
@@ -72,10 +83,10 @@ describe Person do
     end
     context "with multiple people in the database" do
       before do
-        Person.new("Foo").save
-        Person.new("Bar").save
-        Person.new("Baz").save
-        Person.new("Grille").save
+        Person.new("Foo", "", "", "").save
+        Person.new("Bar", "", "", "").save
+        Person.new("Baz", "", "", "").save
+        Person.new("Grille", "", "", "").save
       end
       it "should return the last one inserted" do
         Person.last.name.should == "Grille"
@@ -83,16 +94,25 @@ describe Person do
     end
   end
 
-  context "#new" do 
-    let(:person){ Person.new("Robert") }
-    it "should stor the name" do
+  context "#new" do
+    let(:person){ Person.new("Robert","123-456-7890","robert@nomail.com","@robert") }
+    it "should store the name" do
       person.name.should == "Robert"
+    end
+    it "should store the phone_number" do
+      person.phone_number.should == "123-456-7890"
+    end
+    it "should store the email" do
+      person.email.should == "robert@nomail.com"
+    end
+    it "should store the github account" do
+      person.github.should == "@robert"
     end
   end
 
   context "#create" do
     let(:result){ Environment.database_connection.execute("Select * from people") }
-    let(:person){ Person.create("foo") }
+    let(:person){ Person.create("foo", "", "", "") }
     context "with a valid injury" do
       before do
         Person.any_instance.stub(:valid?){ true }
@@ -121,7 +141,7 @@ describe Person do
 
   context "#save" do
     let(:result){ Environment.database_connection.execute("Select * from people") }
-    let(:person){ Person.new("foo") }
+    let(:person){ Person.new("foo", "123-456-7890", "foo@nomail.com", "@foo") }
     context "with a valid person" do
       before do
         person.stub(:valid?){ true }
@@ -149,7 +169,7 @@ describe Person do
       end
     end
     context "editing a person" do
-      let(:original_person){ Person.create("foo") }
+      let(:original_person){ Person.create("foo", "123-456-7890", "foo@nomail.com", "@foo") }
       let!(:original_id){ original_person.id }
       context "valid update" do
         before do
@@ -168,7 +188,7 @@ describe Person do
         end
       end
       context "invalid update" do
-        let(:duplicate_person){ Person.create("bar") }
+        let(:duplicate_person){ Person.create("bar", "123-456-7890", "bar@nomail.com", "@bar") }
         before do
           original_person
           duplicate_person.name = "foo"
@@ -187,7 +207,7 @@ describe Person do
   context "#valid?" do
     let(:result){ Environment.database_connection.execute("Select name from people") }
     context "after fixing the errors" do
-      let(:person){ Person.new("123") }
+      let(:person){ Person.new("123", "", "", "") }
       it "should return true" do
         person.valid?.should be_false
         person.name = "Robert"
@@ -195,13 +215,13 @@ describe Person do
       end
     end
     context "with a unique name" do
-      let(:person){ Person.new("Joe") }
+      let(:person){ Person.new("Joe","" , "", "") }
       it "should return true" do
         person.valid?.should be_true
       end
     end
     context "with a invalid name" do
-      let(:person){ Person.new("420") }
+      let(:person){ Person.new("420", "", "", "") }
       it "should return false" do
         person.valid?.should be_false
       end
@@ -212,9 +232,9 @@ describe Person do
     end
     context "with a duplicate name" do
       let(:name){ "Susan" }
-      let(:person){ Person.new(name) }
+      let(:person){ Person.new(name,"","","") }
       before do
-        Person.new(name).save
+        Person.new(name,"","","").save
       end
       it "should return false" do
         person.valid?.should be_false

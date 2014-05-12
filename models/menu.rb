@@ -1,5 +1,5 @@
-require 'person'
-require 'group'
+require 'person_menu'
+require 'group_menu'
 
 class Menu
 
@@ -23,19 +23,19 @@ EOS
     return unless input
     input.chomp!
     if input == "1"
-      Person.add_menu
+      PersonMenu.add_menu
     elsif input == "2"
-      Group.add_menu
+      GroupMenu.add_menu
     elsif input == "3"
-      Person.edit_menu
+      PersonMenu.edit_menu
     elsif input == "4"
-      Group.edit_menu
+      GroupMenu.edit_menu
     elsif input == "5"
-      Person.delete_menu
+      PersonMenu.delete_menu
     elsif input == "6"
-      Group.delete_menu
+      GroupMenu.delete_menu
     elsif input == "7"
-      Group.view_menu
+      GroupMenu.view_menu
     elsif input == "8"
       puts "Thank you"
       exit
