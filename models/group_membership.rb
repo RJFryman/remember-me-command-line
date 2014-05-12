@@ -1,4 +1,4 @@
-class GroupMembership
+class GroupMembership < ActiveRecord::Base
   def self.create_for(person, group)
     statement = "Insert into group_memberships (person_id, group_id) values (?, ?);"
     Environment.database_connection.execute(statement, [person.id, group.id])

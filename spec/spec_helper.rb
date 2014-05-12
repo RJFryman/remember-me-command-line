@@ -3,9 +3,6 @@ $LOAD_PATH << "lib"
 $LOAD_PATH << "models"
 
 require 'environment'
-require 'person'
-require 'group'
-require 'group_membership'
 
 Environment.environment = "test"
 

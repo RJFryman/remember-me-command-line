@@ -1,4 +1,4 @@
-class Person
+class Person < ActiveRecord::Base
   attr_reader :errors, :id
   attr_accessor :name, :phone_number, :email, :github
 

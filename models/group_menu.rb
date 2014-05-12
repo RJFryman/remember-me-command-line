@@ -1,8 +1,3 @@
-require 'person'
-require 'group'
-require 'group_membership'
-require 'menu'
-
 class GroupMenu
   def self.add_menu
     puts "Name of group you would like to add?"

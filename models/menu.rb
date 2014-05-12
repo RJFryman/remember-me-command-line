@@ -1,6 +1,3 @@
-require 'person_menu'
-require 'group_menu'
-
 class Menu
 
   def self.options
