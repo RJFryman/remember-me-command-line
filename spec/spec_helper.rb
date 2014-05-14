@@ -11,7 +11,7 @@ Environment.environment = "test"
 
 def run_rm_with_input(*inputs)
   shell_output = ""
-  IO.popen('./remember_me', 'r+') do |pipe|
+  IO.popen('ENVIRONMENT=test ./remember_me', 'r+') do |pipe|
     inputs.each do |input|
       pipe.puts input
     end

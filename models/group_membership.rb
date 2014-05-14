@@ -15,4 +15,8 @@ class GroupMembership
     statement = "Select groups.name from group_memberships JOIN groups ON (group_id=groups.id)where person_id = ?;"
     Environment.database_connection.execute(statement, person.id)
   end
+  def self.count
+    statement = "Select count(*) from group_memberships;"
+    Environment.database_connection.execute(statement)[0][0]
+  end
 end

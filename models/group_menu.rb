@@ -15,7 +15,7 @@ class GroupMenu
       Menu.selection_process
     else
       puts group.errors
-      Menu.selection_process
+      self.add_menu
     end
   end
 
@@ -38,21 +38,21 @@ class GroupMenu
         person = Person.find_by_name(person_name)
         if person
           GroupMembership.create_for(person, group)
-          puts "#{person_name} has been added to #{group_name}"
+          puts "#{person_name} has been added to #{group_name}."
           Menu.selection_process
         else
           puts "#{person_name} is not valid."
           self.edit_menu
         end
       elsif input == "2"
-        puts "Who do you want to remove from #{group_name}"
+        puts "Who do you want to remove from #{group_name}?"
         person_name = gets
         return unless person_name
         person_name.chomp!
         person = Person.find_by_name(person_name)
         if person
           GroupMembership.delete(person, group)
-          puts "#{person_name} has been removed from #{group_name}"
+          puts "#{person_name} has been removed from #{group_name}."
           Menu.selection_process
         else
           puts "#{person_name} is not valid."
@@ -94,7 +94,7 @@ class GroupMenu
       members = GroupMembership.find_all_in(group)
       puts "Members in #{group_name}"
       members.each do |person|
-        puts "NAME : #{person['name']} || Phone Number : #{person['phone_number']} || Email: #{person['email']} || Github: #{person['github']}"
+        puts "Name : #{person['name']} || Phone Number : #{person['phone_number']} || Email: #{person['email']} || Github: #{person['github']}"
       end
       Menu.selection_process
     else
